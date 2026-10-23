@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}Diagnostic Result — Heart Disease Prediction System{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container max-w-1000">
+        
+        <!-- ============ 1. TOP HIGHLIGHTED RISK BANNER (VERY TOP) ============ -->
+        <div class="mb-4">
+            {% if 'High' in prediction %}
+                <div class="p-4 p-md-5 rounded-4 text-white text-center shadow-lg position-relative overflow-hidden" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); border: 2px solid #ef4444;">
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-opacity-20 mb-3">
+                        <i class="fa-solid fa-triangle-exclamation text-white"></i>
+                        <span class="fs-7 font-monospace text-white fw-bold">CRITICAL DIAGNOSTIC STATUS</span>
+                    </div>
+
+                    <h1 class="display-5 fw-black text-white mb-2">
+                        🚨 HIGH RISK OF HEART DISEASE DETECTED
+                    </h1>
+
+                    <p class="lead text-white text-opacity-90 max-w-700 mx-auto mb-3">
+                        The Decision Tree Machine Learning Model indicates an elevated probability of cardiovascular risk based on patient biomarkers.
+                    </p>
+
+                    <div class="d-inline-flex align-items-center gap-3 bg-white text-dark px-4 py-2 rounded-pill shadow-sm">
+                        <span class="fw-bold fs-6">Decision Tree Precision:</span>
+                        <span class="badge bg-danger fs-6 px-3 py-1 rounded-pill">{{ confidence }}% Score</span>
+                    </div>
+                </div>
+            {% else %}
+                <div class="p-4 p-md-5 rounded-4 text-white text-center shadow-lg position-relative overflow-hidden" style="background: linear-gradient(135deg, #0d9488 0%, #115e59 100%); border: 2px solid #14b8a6;">
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-opacity-20 mb-3">
+                        <i class="fa-solid fa-circle-check text-white"></i>
+                        <span class="fs-7 font-monospace text-white fw-bold">NORMAL DIAGNOSTIC STATUS</span>
+                    </div>
+
+                    <h1 class="display-5 fw-black text-white mb-2">
+                        ✅ LOW RISK OF HEART DISEASE DETECTED
+                    </h1>
+
+                    <p class="lead text-white text-opacity-90 max-w-700 mx-auto mb-3">
+                        The Decision Tree Machine Learning Model indicates low cardiac risk with all parameters within standard physiological thresholds.
+                    </p>
+
+                    <div class="d-inline-flex align-items-center gap-3 bg-white text-dark px-4 py-2 rounded-pill shadow-sm">
+                        <span class="fw-bold fs-6">Decision Tree Precision:</span>
+                        <span class="badge bg-success fs-6 px-3 py-1 rounded-pill">{{ confidence }}% Score</span>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- ============ 2. REPORT METADATA & QUICK ACTIONS ============ -->
+        <div class="glass-card mb-4 p-3.5">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-light border border-secondary text-dark px-3 py-2 font-monospace fs-7">
+                        <i class="fa-solid fa-hashtag me-1 text-primary"></i> {{ report_id | default('HDS-2026-REPORT') }}
+                    </span>
+                    <span class="text-muted fs-8">Evaluated via Decision Tree Classifier Engine</span>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-secondary-custom fs-7 py-2" onclick="window.print();">
+                        <i class="fa-solid fa-print me-1"></i> Print Report
+                    </button>
+                    <a href="/download_report" class="btn btn-primary-custom fs-7 py-2">
+                        <i class="fa-solid fa-file-pdf me-1"></i> Download PDF Report
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ 3. PATIENT BIOMARKER DIAGNOSTIC CHART ============ -->
+        {% if patient_vitals %}
+            <div class="glass-card p-4 mb-4">
+                <h5 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-notes-medical text-primary fs-5"></i>
+                    Patient Biomarker Diagnostic Chart (13 Features)
+                </h5>
+
+                <div class="table-responsive">
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Clinical Biomarker</th>
+                                <th>Patient Input Value</th>
+                                <th>Clinical Biomarker</th>
+                                <th>Patient Input Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="fw-bold">Age / Biological Sex</span></td>
+                                <td>{{ patient_vitals.age }} yrs / {{ patient_vitals.sex }}</td>
+                                <td><span class="fw-bold">Resting Blood Pressure</span></td>
+                                <td>
+                                    <span class="{% if patient_vitals.trestbps >= 140 %}text-danger fw-bold{% endif %}">
+                                        {{ patient_vitals.trestbps }} mmHg
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">Serum Cholesterol</span></td>
+                                <td>
+                                    <span class="{% if patient_vitals.chol >= 240 %}text-danger fw-bold{% endif %}">
+                                        {{ patient_vitals.chol }} mg/dL
+                                    </span>
+                                </td>
+                                <td><span class="fw-bold">Fasting Blood Sugar</span></td>
+                                <td>{{ patient_vitals.fbs }}</td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">Chest Pain Type</span></td>
+                                <td>{{ patient_vitals.cp }}</td>
+                                <td><span class="fw-bold">Max Heart Rate (thalach)</span></td>
+                                <td>
+                                    <span class="{% if patient_vitals.thalach < 120 %}text-danger fw-bold{% endif %}">
+                                        {{ patient_vitals.thalach }} bpm
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">Resting ECG Result</span></td>
+                                <td>{{ patient_vitals.restecg }}</td>
+                                <td><span class="fw-bold">Exercise Induced Angina</span></td>
+                                <td>{{ patient_vitals.exang }}</td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">ST Oldpeak Depression</span></td>
+                                <td>{{ patient_vitals.oldpeak }}</td>
+                                <td><span class="fw-bold">ST Segment Slope</span></td>
+                                <td>{{ patient_vitals.slope }}</td>
+                            </tr>
+                            <tr>
+                                <td><span class="fw-bold">Major Colored Vessels</span></td>
+                                <td>{{ patient_vitals.ca }} Vessel(s)</td>
+                                <td><span class="fw-bold">Thalassemia Status</span></td>
+                                <td>{{ patient_vitals.thal }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- ============ 4. CONTRIBUTING RISK FACTOR MATRIX ============ -->
+        {% if risk_factors and risk_factors|length > 0 %}
+            <div class="glass-card p-4 mb-4">
+                <h5 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-danger fs-5"></i>
+                    Contributing Biomarker Risk Factor Matrix
+                </h5>
+
+                <div class="row g-2">
+                    {% for rf in risk_factors %}
+                        <div class="col-md-6">
+                            <div class="p-2.5 rounded bg-light border border-danger border-opacity-25 d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="fw-bold text-dark fs-8">{{ rf.name }}</div>
+                                    <div class="text-muted fs-8">Patient Value: {{ rf.value }}</div>
+                                </div>
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1 fs-8">
+                                    {{ rf.impact }} Impact
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- ============ 5. RECOMMENDATIONS (PLACED AT THE BOTTOM AS REQUESTED) ============ -->
+        <div class="glass-card p-4 mb-4">
+            <h5 class="fw-bold text-dark mb-4 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-list-check text-emerald fs-5"></i>
+                Actionable Clinical Recommendations &amp; Care Plan
+            </h5>
+
+            {% if advice_categories and advice_categories|length > 0 %}
+                <div class="row g-4">
+                    <!-- Medical Actions -->
+                    <div class="col-md-4">
+                        <div class="p-3.5 rounded bg-light border border-secondary border-opacity-25 h-100">
+                            <h6 class="fw-bold text-primary mb-3 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-stethoscope"></i> Medical &amp; Clinical Actions
+                            </h6>
+                            <ul class="advice-list mb-0">
+                                {% for item in advice_categories.medical %}
+                                    <li class="fs-8 mb-2">{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Lifestyle & Diet -->
+                    <div class="col-md-4">
+                        <div class="p-3.5 rounded bg-light border border-secondary border-opacity-25 h-100">
+                            <h6 class="fw-bold text-emerald mb-3 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-carrot"></i> Lifestyle &amp; Diet Plan
+                            </h6>
+                            <ul class="advice-list mb-0">
+                                {% for item in advice_categories.lifestyle %}
+                                    <li class="fs-8 mb-2">{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Continuous Monitoring -->
+                    <div class="col-md-4">
+                        <div class="p-3.5 rounded bg-light border border-secondary border-opacity-25 h-100">
+                            <h6 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-clock-rotate-left"></i> Continuous Monitoring
+                            </h6>
+                            <ul class="advice-list mb-0">
+                                {% for item in advice_categories.monitoring %}
+                                    <li class="fs-8 mb-2">{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <ul class="advice-list {% if 'High' in prediction %}high-risk{% endif %}">
+                    {% for item in advice %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <!-- ============ 6. ACTION FOOTER BAR ============ -->
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <a href="/predict" class="btn btn-secondary-custom">
+                <i class="fa-solid fa-rotate-left me-1"></i> Assess Another Patient
+            </a>
+
+            <div class="d-flex gap-2">
+                <a href="/history" class="btn btn-secondary-custom">
+                    <i class="fa-solid fa-clock-rotate-left me-1"></i> Audit History Log
+                </a>
+                <a href="/download_report" class="btn btn-primary-custom">
+                    <i class="fa-solid fa-file-pdf me-1"></i> Download PDF Report
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

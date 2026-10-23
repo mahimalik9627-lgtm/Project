@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}About &amp; Technologies Used — Heart Disease Prediction System{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container max-w-1000">
+        
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-primary bg-opacity-10 border border-primary border-opacity-25 mb-2">
+                <i class="fa-solid fa-code text-primary"></i>
+                <span class="fs-7 font-monospace text-primary fw-semibold">TECHNOLOGY STACK</span>
+            </div>
+            <h1 class="display-5 fw-extrabold text-dark">About The Technologies Used</h1>
+            <p class="text-muted">An overview of the full-stack technology stack, machine learning libraries, and system architecture.</p>
+        </div>
+
+        <!-- DEVELOPER & PROJECT SUMMARY CARD -->
+        <div class="glass-card glow-primary p-4 p-md-5 mb-5">
+            <div class="row align-items-center gy-4">
+                <div class="col-md-3 text-center">
+                    <div class="stat-icon red mx-auto mb-2" style="width: 90px; height: 90px; font-size: 2.5rem;">
+                        <i class="fa-solid fa-diagram-project"></i>
+                    </div>
+                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-pill fs-8">Machine Learning Project</span>
+                </div>
+                <div class="col-md-9">
+                    <h3 class="fw-bold text-dark mb-2">Heart Disease Prediction System</h3>
+                    <p class="text-muted fs-7 mb-3">
+                        This application is a full-stack Machine Learning web project engineered to evaluate cardiovascular risk factors from 13 clinical biomarkers. Powered by a Decision Tree Classifier (`DecisionTreeClassifier`), it delivers real-time risk predictions, interactive Chart.js analytics, and automated PDF report downloads.
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="https://github.com" target="_blank" class="btn btn-secondary-custom fs-7 py-2">
+                            <i class="fa-brands fa-github me-1"></i> GitHub Repository
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="btn btn-secondary-custom fs-7 py-2">
+                            <i class="fa-brands fa-linkedin me-1"></i> LinkedIn Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TECHNOLOGIES USED GRID ============ -->
+        <div class="mb-5">
+            <div class="text-center max-w-700 mx-auto mb-4">
+                <h3 class="fw-bold text-dark mb-2">Technologies &amp; Libraries Used</h3>
+                <p class="text-muted">A detailed breakdown of all software technologies powering this application.</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- 1. Python 3.14 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card h-100 p-4 text-center">
+                        <div class="stat-icon blue mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                            <i class="fa-brands fa-python text-primary"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Python 3.14</h5>
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-2.5 py-1 rounded-pill fs-9 mb-2">Core Language</span>
+                        <p class="text-muted fs-8 mb-0">Powers data ingestion, machine learning pipeline execution, and web server logic.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Flask Framework -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card h-100 p-4 text-center">
+                        <div class="stat-icon red mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                            <i class="fa-solid fa-fire text-danger"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Flask 3.0</h5>
+                        <span class="badge bg-danger bg-opacity-10 text-danger px-2.5 py-1 rounded-pill fs-9 mb-2">Web Framework</span>
+                        <p class="text-muted fs-8 mb-0">Micro-framework serving RESTful routes, Jinja2 dynamic templates, and session states.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Scikit-Learn -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card h-100 p-4 text-center">
+                        <div class="stat-icon emerald mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                            <i class="fa-solid fa-brain text-emerald"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Scikit-Learn</h5>
+                        <span class="badge bg-success bg-opacity-10 text-emerald px-2.5 py-1 rounded-pill fs-9 mb-2">ML Engine</span>
+                        <p class="text-muted fs-8 mb-0">Implements `DecisionTreeClassifier`, Gini splits, and 80/20 stratified validation.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Pandas & NumPy -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card h-100 p-4 text-center">
+                        <div class="stat-icon purple mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                            <i class="fa-solid fa-table text-purple" style="color: #6366f1;"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Pandas &amp; NumPy</h5>
+                        <span class="badge bg-purple bg-opacity-10 text-purple px-2.5 py-1 rounded-pill fs-9 mb-2" style="background-color: rgba(99, 102, 241, 0.1); color: #6366f1;">Data Processing</span>
+                        <p class="text-muted fs-8 mb-0">Used for dataset manipulation (`heart.csv`), array operations, and statistics.</p>
+                    </div>
+                </div>
+
+                <!-- 5. Chart.js -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card h-100 p-4 text-center">
+                        <div class="stat-icon blue mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                            <i class="fa-solid fa-chart-pie text-primary"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Chart.js</h5>
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-2.5 py-1 rounded-pill fs-9 mb-2">Interactive Charts</span>
+                        <p class="text-muted fs-8 mb-0">Renders dynamic client-side Doughnut and Bar charts on the Analytics Dashboard.</p>
+                    </div>
+                </div>
+
+                <!-- 6. ReportLab PDF -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card h-100 p-4 text-center">
+                        <div class="stat-icon red mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                            <i class="fa-solid fa-file-pdf text-danger"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">ReportLab PDF</h5>
+                        <span class="badge bg-danger bg-opacity-10 text-danger px-2.5 py-1 rounded-pill fs-9 mb-2">PDF Document Engine</span>
+                        <p class="text-muted fs-8 mb-0">Compiles downloadable patient medical reports with diagnostic tables and care plans.</p>
+                    </div>
+                </div>
+
+                <!-- 7. HTML5 & Bootstrap 5 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card h-100 p-4 text-center">
+                        <div class="stat-icon emerald mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                            <i class="fa-solid fa-palette text-emerald"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Bootstrap 5 &amp; CSS3</h5>
+                        <span class="badge bg-success bg-opacity-10 text-emerald px-2.5 py-1 rounded-pill fs-9 mb-2">Responsive UI</span>
+                        <p class="text-muted fs-8 mb-0">Provides modern responsive glassmorphism card layouts and high-contrast typography.</p>
+                    </div>
+                </div>
+
+                <!-- 8. Joblib & CSV -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="glass-card h-100 p-4 text-center">
+                        <div class="stat-icon purple mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                            <i class="fa-solid fa-box-archive text-purple" style="color: #6366f1;"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Joblib &amp; CSV</h5>
+                        <span class="badge bg-purple bg-opacity-10 text-purple px-2.5 py-1 rounded-pill fs-9 mb-2" style="background-color: rgba(99, 102, 241, 0.1); color: #6366f1;">Model Storage</span>
+                        <p class="text-muted fs-8 mb-0">Serializes `heart_model.pkl` binary and maintains persistent prediction history logs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DISCLAIMER -->
+        <div class="glass-card p-4 text-center border-warning border-opacity-25 mb-5">
+            <div class="text-warning display-6 mb-2">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Educational &amp; Portfolio Disclaimer</h5>
+            <p class="text-muted fs-7 max-w-600 mx-auto mb-0">
+                This system is engineered exclusively for educational, scientific research, and developer portfolio demonstration purposes.
+            </p>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

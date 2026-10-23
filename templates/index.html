@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block title %}Heart Disease Prediction System — Decision Tree Engine{% endblock %}
+
+{% block content %}
+<section class="py-4">
+    <div class="container">
+        
+        <!-- ============ HERO SECTION WITH CRISP HOSPITAL BLUE OVERLAY ============ -->
+        <div class="hero-section-bg my-3">
+            <div class="row align-items-center gy-5">
+                
+                <!-- Hero Text Left -->
+                <div class="col-lg-6">
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill  bg-opacity-20 border border-white border-opacity-25 mb-3">
+                        <i class="fa-solid fa-heart-pulse text-danger animate-pulse"></i>
+                        <span class="fs-7 font-monospace text-white fw-bold">DECISION TREE MACHINE LEARNING</span>
+                    </div>
+                    
+                    <h1 class="display-4 fw-extrabold mb-3 text-white">
+                        Heart Disease <br>
+                        <span class="gradient-text-primary">Prediction System</span>
+                    </h1>
+                    
+                    <p class="lead text-white text-opacity-90 mb-4 pe-lg-4">
+                        Predict cardiac health risk factors in real-time. Powered by an interpretable Decision Tree Classifier trained on 1,000+ patient records achieving <strong>97.56% precision</strong>.
+                    </p>
+
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <a href="/predict" class="btn btn-primary-custom btn-lg">
+                            <i class="fa-solid fa-stethoscope me-1"></i> Start Risk Prediction
+                        </a>
+                        <a href="/dashboard" class="btn btn-secondary-custom btn-lg">
+                            <i class="fa-solid fa-chart-simple me-1"></i> View Analytics
+                        </a>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="d-flex flex-wrap align-items-center gap-4 mt-4 pt-3 border-top border-white border-opacity-20 text-white text-opacity-80 fs-7">
+                        <div><i class="fa-solid fa-circle-check text-info me-1"></i> Instant PDF Report</div>
+                        <div><i class="fa-solid fa-circle-check text-info me-1"></i> Decision Tree Model</div>
+                        <div><i class="fa-solid fa-circle-check text-info me-1"></i> 13 Clinical Biomarkers</div>
+                    </div>
+                </div>
+
+                <!-- Hero Diagnostic Telemetry Showcase Card Right -->
+                <div class="col-lg-6">
+                    <div class="glass-card p-4 shadow-lg text-dark">
+                        <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-heart-circle-check text-danger fs-5 animate-pulse"></i>
+                                <span class="fw-bold text-dark fs-6">Diagnostic Telemetry &amp; Preset Loader</span>
+                            </div>
+                            <span class="badge bg-primary text-white px-2.5 py-1 rounded-pill fs-8">
+                                97.56% Precision
+                            </span>
+                        </div>
+
+                        <p class="text-muted fs-8 mb-3">Load sample patient profiles to test instant risk evaluation:</p>
+
+                        <!-- Preset Loader Buttons -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <a href="/predict" class="btn btn-outline-success w-100 p-2.5 text-start fs-8 rounded-3">
+                                    <div class="fw-bold text-emerald mb-1"><i class="fa-solid fa-circle-check me-1"></i> Low Risk Patient</div>
+                                    <div class="text-muted fs-9">Normal Vitals &amp; HR</div>
+                                </a>
+                            </div>
+
+                            <div class="col-6">
+                                <a href="/predict" class="btn btn-outline-danger w-100 p-2.5 text-start fs-8 rounded-3">
+                                    <div class="fw-bold text-Alert mb-1"><i class="fa-solid fa-triangle-exclamation me-1"></i> High Risk Patient</div>
+                                    <div class="text-muted fs-9">Elevated BP &amp; ST Segment</div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Mini Biomarkers Badge Matrix -->
+                        <div class="p-3 rounded bg-light border border-secondary border-opacity-25 mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-2 fs-8">
+                                <span class="fw-bold text-dark">Evaluated Biomarkers (13):</span>
+                                <span class="badge bg-dark text-white fs-9">Decision Tree</span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-1 fs-9">
+                                <span class="badge bg-white text-dark border">Age</span>
+                                <span class="badge bg-white text-dark border">Sex</span>
+                                <span class="badge bg-white text-dark border">Chest Pain</span>
+                                <span class="badge bg-white text-dark border">Resting BP</span>
+                                <span class="badge bg-white text-dark border">Cholesterol</span>
+                                <span class="badge bg-white text-dark border">Fasting BS</span>
+                                <span class="badge bg-white text-dark border">ECG</span>
+                                <span class="badge bg-white text-dark border">Max HR</span>
+                                <span class="badge bg-white text-dark border">Ex Angina</span>
+                                <span class="badge bg-white text-dark border">Oldpeak</span>
+                                <span class="badge bg-white text-dark border">Slope</span>
+                                <span class="badge bg-white text-dark border">CA</span>
+                                <span class="badge bg-white text-dark border">Thal</span>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <a href="/predict" class="btn btn-primary-custom w-100 py-2 fs-7">
+                                <i class="fa-solid fa-notes-medical me-1"></i> Launch Assessment Form
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============ STATS COUNTER STRIP ============ -->
+        <div class="row g-3 my-4">
+            <div class="col-md-3 col-6">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon red"><i class="fa-solid fa-database"></i></div>
+                    <div>
+                        <div class="stat-value">{{ stats.total }}</div>
+                        <div class="stat-label">Clinical Dataset Cases</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon emerald"><i class="fa-solid fa-diagram-project"></i></div>
+                    <div>
+                        <div class="stat-value text-emerald">97.56%</div>
+                        <div class="stat-label">Decision Tree Precision</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon blue"><i class="fa-solid fa-sliders"></i></div>
+                    <div>
+                        <div class="stat-value">13</div>
+                        <div class="stat-label">Biomarker Features</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon purple"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div>
+                        <div class="stat-value">Instant</div>
+                        <div class="stat-label">PDF Medical Export</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ STEP-BY-STEP DIAGNOSTIC WORKFLOW ============ -->
+        <div class="my-5 pt-3">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-primary bg-opacity-10 border border-primary border-opacity-25 mb-2">
+                    <i class="fa-solid fa-timeline text-primary"></i>
+                    <span class="fs-7 font-monospace text-primary fw-semibold">DIAGNOSTIC PIPELINE</span>
+                </div>
+                <h2 class="display-6 fw-extrabold text-dark mb-2">How The System Works</h2>
+                <p class="text-muted">A streamlined 4-step Machine Learning evaluation workflow.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="glass-card text-center p-4 h-100">
+                        <div class="stat-icon blue mx-auto mb-3"><i class="fa-solid fa-pen-to-square"></i></div>
+                        <span class="badge bg-primary text-white mb-2 fs-8">Step 1</span>
+                        <h5 class="fw-bold text-dark mb-1">Input Vitals</h5>
+                        <p class="text-muted fs-8 mb-0">Enter patient age, blood pressure, cholesterol, and ECG data.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="glass-card text-center p-4 h-100">
+                        <div class="stat-icon red mx-auto mb-3"><i class="fa-solid fa-diagram-project"></i></div>
+                        <span class="badge bg-danger text-white mb-2 fs-8">Step 2</span>
+                        <h5 class="fw-bold text-dark mb-1">Tree Evaluation</h5>
+                        <p class="text-muted fs-8 mb-0">Decision Tree splits features on optimal Gini decision nodes.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="glass-card text-center p-4 h-100">
+                        <div class="stat-icon emerald mx-auto mb-3"><i class="fa-solid fa-calculator"></i></div>
+                        <span class="badge bg-success text-white mb-2 fs-8">Step 3</span>
+                        <h5 class="fw-bold text-dark mb-1">Risk Score</h5>
+                        <p class="text-muted fs-8 mb-0">Calculates classification risk status and confidence percentage.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="glass-card text-center p-4 h-100">
+                        <div class="stat-icon purple mx-auto mb-3"><i class="fa-solid fa-file-pdf"></i></div>
+                        <span class="badge bg-purple text-white mb-2 fs-8" style="background-color: #6366f1;">Step 4</span>
+                        <h5 class="fw-bold text-dark mb-1">PDF Export</h5>
+                        <p class="text-muted fs-8 mb-0">Generate downloadable PDF medical report with care plan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ INTERACTIVE BIOMARKER CATALOG ============ -->
+        <div class="glass-card my-5 p-4 p-md-5">
+            <div class="row align-items-center mb-4">
+                <div class="col-md-8">
+                    <h3 class="fw-bold text-dark mb-1">Evaluated Biomarker Features</h3>
+                    <p class="text-muted mb-0 fs-7">The 13 clinical biomarkers evaluated by our Decision Tree model.</p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="/model" class="btn btn-secondary-custom fs-7 py-2">
+                        <i class="fa-solid fa-circle-info me-1"></i> Technical Specs
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-3 fs-7">
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 rounded bg-light border border-secondary border-opacity-25 h-100">
+                        <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-user me-2 text-primary"></i> Patient Demographics</div>
+                        <div class="text-muted fs-8">Age (Years) &amp; Biological Sex</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 rounded bg-light border border-secondary border-opacity-25 h-100">
+                        <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-heart-pulse me-2 text-danger"></i> Chest Pain Type (CP)</div>
+                        <div class="text-muted fs-8">Typical, Atypical, Non-Anginal, Asymptomatic</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 rounded bg-light border border-secondary border-opacity-25 h-100">
+                        <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-droplet me-2 text-primary"></i> Resting Blood Pressure</div>
+                        <div class="text-muted fs-8">Systolic Pressure (mmHg) at rest</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 rounded bg-light border border-secondary border-opacity-25 h-100">
+                        <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-vial me-2 text-primary"></i> Serum Cholesterol</div>
+                        <div class="text-muted fs-8">Fast lipid cholesterol (mg/dL)</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 rounded bg-light border border-secondary border-opacity-25 h-100">
+                        <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-gauge-high me-2 text-primary"></i> Max Heart Rate</div>
+                        <div class="text-muted fs-8">Peak HR achieved during stress test</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 rounded bg-light border border-secondary border-opacity-25 h-100">
+                        <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-wave-square me-2 text-danger"></i> ST Depression (Oldpeak)</div>
+                        <div class="text-muted fs-8">Exercise-induced ST segment relative to rest</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ DECISION TREE MODEL SPOTLIGHT CARD ============ -->
+        <div class="glass-card glow-primary p-4 p-md-5 text-center my-5">
+            <div class="display-5 text-primary mb-3">
+                <i class="fa-solid fa-diagram-project"></i>
+            </div>
+            <h2 class="fw-bold text-dark mb-2">Powered by Decision Tree Machine Learning</h2>
+            <p class="text-muted max-w-600 mx-auto mb-4">
+                Decision Trees provide 100% transparent rules and non-linear decision splits, offering explainable diagnostic reasoning with 97.56% dataset precision.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/predict" class="btn btn-primary-custom btn-lg">
+                    <i class="fa-solid fa-stethoscope me-1"></i> Launch Assessment
+                </a>
+                <a href="/model" class="btn btn-secondary-custom btn-lg">
+                    <i class="fa-solid fa-circle-info me-1"></i> Model Metrics
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

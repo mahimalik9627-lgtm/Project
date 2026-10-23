@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}Clinical Analytics Dashboard — HeartSense AI{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        
+        <!-- Header -->
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+            <div>
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-primary bg-opacity-10 border border-primary border-opacity-25 mb-2">
+                    <i class="fa-solid fa-chart-pie text-primary"></i>
+                    <span class="fs-7 font-monospace text-primary fw-semibold">CLINICAL DATASET INSIGHTS</span>
+                </div>
+                <h1 class="display-5 fw-extrabold mb-0 text-dark">Hospital Analytics Dashboard</h1>
+            </div>
+
+            <a href="/predict" class="btn btn-primary-custom">
+                <i class="fa-solid fa-plus me-1"></i> New Assessment
+            </a>
+        </div>
+
+        <!-- ============ STATS STRIP ============ -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon red"><i class="fa-solid fa-folder-open"></i></div>
+                    <div>
+                        <div class="stat-value">{{ stats.total }}</div>
+                        <div class="stat-label">Total Sample Patients</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon emerald"><i class="fa-solid fa-shield-heart"></i></div>
+                    <div>
+                        <div class="stat-value text-emerald">{{ stats.low }}</div>
+                        <div class="stat-label">Low Risk Patients</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon red"><i class="fa-solid fa-heart-circle-bolt"></i></div>
+                    <div>
+                        <div class="stat-value text-danger">{{ stats.high }}</div>
+                        <div class="stat-label">High Risk Cases</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon blue"><i class="fa-solid fa-user-doctor"></i></div>
+                    <div>
+                        <div class="stat-value">{{ stats.avg_age }} yrs</div>
+                        <div class="stat-label">Average Patient Age</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ CHARTS ROW 1 ============ -->
+        <div class="row g-4 mb-4">
+            <!-- Doughnut: Target Class Distribution -->
+            <div class="col-lg-5">
+                <div class="glass-card glow-primary p-4 h-100">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2 text-dark">
+                        <i class="fa-solid fa-chart-donut text-primary"></i>
+                        Risk Class Distribution
+                    </h5>
+                    <div style="position: relative; height: 260px;">
+                        <canvas id="targetDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bar: Age Group Breakdown -->
+            <div class="col-lg-7">
+                <div class="glass-card glow-emerald p-4 h-100">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2 text-dark">
+                        <i class="fa-solid fa-chart-column text-emerald"></i>
+                        Age Demographics Breakdown
+                    </h5>
+                    <div style="position: relative; height: 260px;">
+                        <canvas id="ageGroupChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ CHARTS ROW 2 ============ -->
+        <div class="row g-4">
+            <!-- Horizontal Bar: Chest Pain Types -->
+            <div class="col-lg-8">
+                <div class="glass-card p-4">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2 text-dark">
+                        <i class="fa-solid fa-chart-bar text-primary"></i>
+                        Chest Pain Classification Types
+                    </h5>
+                    <div style="position: relative; height: 240px;">
+                        <canvas id="chestPainChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Card -->
+            <div class="col-lg-4">
+                <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="fw-bold mb-3 text-dark">Population Means</h5>
+                        <div class="p-3 mb-2 rounded bg-light border border-secondary border-opacity-25">
+                            <div class="text-dim fs-8">Average Cholesterol</div>
+                            <div class="fw-bold text-dark fs-5">{{ stats.avg_chol }} mg/dL</div>
+                        </div>
+                        <div class="p-3 mb-2 rounded bg-light border border-secondary border-opacity-25">
+                            <div class="text-dim fs-8">Average Resting BP</div>
+                            <div class="fw-bold text-dark fs-5">{{ stats.avg_bp }} mmHg</div>
+                        </div>
+                        <div class="p-3 rounded bg-light border border-secondary border-opacity-25">
+                            <div class="text-dim fs-8">Random Forest Precision</div>
+                            <div class="fw-bold text-emerald fs-5">98.5% Validation Acc</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Chart.js Light Hospital Styling Defaults
+        Chart.defaults.color = '#334155';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        // 1. Target Distribution Doughnut Chart
+        new Chart(document.getElementById('targetDistributionChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Low Risk (Healthy)', 'High Risk (Cardiac Case)'],
+                datasets: [{
+                    data: {{ chart_data.target_distribution | tojson }},
+                    backgroundColor: ['#0d9488', '#e11d48'],
+                    borderColor: '#ffffff',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 2. Age Group Bar Chart
+        const ageGroupData = {{ chart_data.age_groups | tojson }};
+        new Chart(document.getElementById('ageGroupChart'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(ageGroupData),
+                datasets: [{
+                    label: 'Patients Count',
+                    data: Object.values(ageGroupData),
+                    backgroundColor: '#0284c7',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { grid: { color: 'rgba(226, 232, 240, 0.8)' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 3. Chest Pain Chart
+        new Chart(document.getElementById('chestPainChart'), {
+            type: 'bar',
+            data: {
+                labels: ['0: Typical Angina', '1: Atypical Angina', '2: Non-Anginal', '3: Asymptomatic'],
+                datasets: [{
+                    label: 'Cases',
+                    data: {{ chart_data.chest_pain | tojson }},
+                    backgroundColor: ['#e11d48', '#0284c7', '#0d9488', '#d97706'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: { grid: { color: 'rgba(226, 232, 240, 0.8)' } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
